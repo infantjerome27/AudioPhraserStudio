@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#0a0e1a">
+<link rel="icon" type="image/png" href="icon-192.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="AudioPhraser">
+<title>Log in — AudioPhraser Studio</title>
+<meta name="description" content="Log in to AudioPhraser Studio, or request access from the super admin.">
+<style>
+:root{--bg:#0a0e1a;--bg2:#0d1322;--panel:#151b2e;--panel2:#1a2138;--line:#232c47;
+--txt:#f1f3f9;--dim:#8b93a7;--lbl:#aab2c5;--accent:#7c3aed;--accent2:#3b82f6;
+--grad:linear-gradient(135deg,#7c3aed,#3b82f6);--pink:#ec4899;--green:#22c55e;
+--amber:#f59e0b;--red:#ef4444;--link:#7aa7ff;
+--shadow:0 8px 28px rgba(0,0,0,.45);}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;-webkit-tap-highlight-color:transparent;overscroll-behavior:none}
+body{font-family:Roboto,system-ui,-apple-system,"Segoe UI",Arial,sans-serif;
+background:radial-gradient(120% 60% at 50% -10%,rgba(124,58,237,.22),transparent 60%),var(--bg);
+color:var(--txt);min-height:100vh;}
+button{font-family:inherit;cursor:pointer;}
+a{color:var(--link);}
+.bar{position:relative;display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+padding:calc(14px + env(safe-area-inset-top,0px)) 20px 4px;max-width:860px;margin:0 auto;}
+.brand{display:flex;align-items:center;gap:10px;margin-right:auto;min-width:0;}
+.logo{width:38px;height:38px;border-radius:10px;background:var(--panel2);
+border:1px solid var(--line);display:flex;align-items:center;justify-content:center;flex:0 0 auto;}
+.brand b{font-family:"Google Sans",Roboto,sans-serif;font-size:18px;font-weight:600;color:var(--txt);white-space:nowrap;}
+.gbtn{background:var(--panel);border:1px solid var(--line);color:var(--link);border-radius:12px;
+padding:8px 16px;font-size:13.5px;font-weight:500;text-decoration:none;display:inline-flex;
+align-items:center;gap:7px;min-height:44px;white-space:nowrap;}
+.gbtn:hover{background:var(--panel2);}
+.gbtn.fill{background:var(--grad);border-color:transparent;color:#fff;}
+.wrap{max-width:520px;margin:26px auto 60px;padding:0 16px;}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;
+box-shadow:var(--shadow);padding:24px;margin-bottom:16px;}
+.card h1{font-family:"Google Sans",Roboto,sans-serif;font-size:22px;margin:0 0 6px;color:var(--txt);}
+.card h2{font-family:"Google Sans",Roboto,sans-serif;font-size:17px;margin:0 0 6px;color:var(--txt);}
+.sub{color:var(--dim);font-size:13.5px;line-height:1.55;margin:0 0 14px;}
+label{display:block;font-size:12.5px;font-weight:500;color:var(--lbl);margin:12px 0 5px;}
+input,textarea{width:100%;border:1px solid var(--line);border-radius:12px;padding:12px;
+font-size:16px;font-family:inherit;background:var(--panel2);color:var(--txt);min-height:48px;}
+input::placeholder,textarea::placeholder{color:#5d6478;}
+input:focus,textarea:focus{outline:none;border-color:var(--accent2);box-shadow:0 0 0 4px rgba(59,130,246,.25);}
+.big{width:100%;border:none;border-radius:12px;padding:12px;font-size:15px;font-weight:600;
+background:var(--grad);color:#fff;margin-top:16px;min-height:48px;}
+.big.green{background:linear-gradient(135deg,#22c55e,#16a34a);}
+.err{display:none;background:rgba(239,68,68,.13);color:#fca5a5;border:1px solid rgba(239,68,68,.35);
+border-radius:10px;padding:10px 12px;font-size:13.5px;margin-top:12px;line-height:1.5;}
+.ok{display:none;background:rgba(34,197,94,.13);color:#86efac;border:1px solid rgba(34,197,94,.35);
+border-radius:10px;padding:10px 12px;font-size:13.5px;margin-top:12px;line-height:1.5;}
+.divider{display:flex;align-items:center;gap:12px;color:var(--dim);font-size:12px;margin:22px 0 4px;}
+.divider::before,.divider::after{content:"";flex:1;border-top:1px solid var(--line);}
+.hidden{display:none !important;}
+.pill{display:inline-block;background:rgba(124,58,237,.2);color:#c4b5fd;border:1px solid rgba(124,58,237,.4);
+border-radius:12px;padding:3px 10px;font-size:12px;font-weight:600;}
+.pill.wait{background:rgba(245,158,11,.14);color:#fcd34d;border-color:rgba(245,158,11,.4);}
+.pill.no{background:rgba(239,68,68,.14);color:#fca5a5;border-color:rgba(239,68,68,.4);}
+.pill.ok{background:rgba(34,197,94,.14);color:#86efac;border-color:rgba(34,197,94,.4);}
+pre{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:12px;
+font-size:11.5px;overflow:auto;line-height:1.5;color:var(--txt);}
+.rowbtns{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px;}
+.rowbtns a{flex:1;text-align:center;justify-content:center;}
+details summary{cursor:pointer;color:var(--link);font-size:13.5px;font-weight:500;}
+ol.steps{color:var(--dim);font-size:13.5px;line-height:1.65;padding-left:20px;}
+ol.steps b{color:var(--txt);}
+svg{vertical-align:middle}
+.gbtn:active,.big:active{transform:scale(.98);}
+.warow{display:flex;gap:8px;}
+.warow .cc{flex:0 0 88px;text-align:center;}
+.warow .num{flex:1;min-width:0;}
+button:focus-visible,a:focus-visible,input:focus-visible{outline:2px solid var(--accent2);outline-offset:2px;}
+@media (min-width:641px) and (max-width:1024px){.wrap{max-width:560px;}}
+@media (max-width:640px){.wrap{margin-top:16px;}.card{padding:20px 18px;border-radius:18px;}}
+@media (pointer:coarse){.gbtn{min-height:44px;}}
+@media (prefers-reduced-motion:reduce){*{transition:none !important;}}
+.card{animation:cardIn .3s ease both}
+@keyframes cardIn{from{opacity:0}to{opacity:1}}
+@media (max-width:640px){button,.gbtn{min-height:44px}
+.wrap{padding-left:12px;padding-right:12px;padding-bottom:calc(24px + env(safe-area-inset-bottom,0px))}}
+/* ---------- collapse menu (hamburger in the header) ---------- */
+#menuBtn{width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:var(--panel);
+color:var(--txt);display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto;transition:.15s;cursor:pointer}
+#menuBtn:hover{background:var(--panel2)}
+#menuBtn[aria-expanded="true"]{background:rgba(124,58,237,.25);color:#c4b5fd;border-color:var(--accent)}
+#menu{position:absolute;top:calc(100% + 6px);right:12px;z-index:60;background:var(--panel);
+border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);padding:6px;
+min-width:230px;max-width:calc(100vw - 24px)}
+.mitem{display:flex;align-items:center;gap:11px;width:100%;text-align:left;background:transparent;
+border:none;color:var(--txt);border-radius:10px;padding:11px 12px;font-size:14px;font-weight:500;
+cursor:pointer;text-decoration:none;min-height:44px}
+.mitem:hover{background:var(--panel2)}
+.mitem svg{width:20px;height:20px;color:var(--dim);flex:0 0 auto}
+.mitem:hover svg{color:#c4b5fd}
+.mdiv{height:1px;background:var(--line);margin:6px 8px}
+#menu #acctArea{display:flex;flex-direction:column;align-items:stretch;gap:2px;width:100%}
+#menu #acctArea .aemail{font-size:12px;color:var(--dim);padding:8px 12px 2px;max-width:none;
+overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#menu #acctArea .abtn{display:flex;align-items:center;border:none;background:transparent;color:var(--txt);
+border-radius:10px;padding:11px 12px;font-size:14px;font-weight:500;text-align:left;width:100%;
+cursor:pointer;text-decoration:none;min-height:44px}
+#menu #acctArea .abtn:hover{background:var(--panel2)}
+/* ---------- hero logo block (login) ---------- */
+.hero{text-align:center;padding:18px 8px 6px;}
+.hero-logo{width:72px;height:72px;margin:0 auto 12px;border-radius:20px;background:var(--panel2);
+border:1px solid var(--line);display:flex;align-items:center;justify-content:center;}
+.hero-name{font-size:26px;font-weight:700;letter-spacing:.2px;color:var(--txt);}
+.hero-name span{background:linear-gradient(135deg,#a855f7,#3b82f6,#22d3ee);
+-webkit-background-clip:text;background-clip:text;color:transparent;}
+.hero-tag{color:var(--dim);font-size:13.5px;margin:8px 0 0;line-height:1.5;}
+.hidden{display:none!important}</style>
+</head>
+<body>
+  <div class="bar">
+    <div class="brand"><div class="logo"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="10" width="2.8" height="9" rx="1.4" fill="#a855f7"/><rect x="6.4" y="5" width="2.8" height="14" rx="1.4" fill="#ec4899"/><rect x="10.8" y="8" width="2.8" height="11" rx="1.4" fill="#3b82f6"/><rect x="15.2" y="3" width="2.8" height="16" rx="1.4" fill="#22d3ee"/><rect x="19.6" y="7" width="2.8" height="12" rx="1.4" fill="#22c55e"/></svg></div><b>AudioPhraser Studio</b></div>
+    <button id="menuBtn" class="iconBtn" type="button" aria-label="Menu" aria-expanded="false" aria-controls="menu"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+  <div id="menu" class="hidden" role="menu">
+    <a class="mitem" href="index.html"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg> Home</a>
+    <a class="mitem" href="editor.html"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M4 10v4M8 7v10M12 4v16M16 8v8M20 10v4"/></svg> Creator &amp; Editor</a>
+    <a class="mitem" href="player.html"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg> Player</a>
+    <div class="mdiv"></div>
+    <span id="acctArea"></span>
+  </div>
+  </div>
+
+  <div class="wrap">
+    <!-- SIGNED OUT -->
+    <div id="outView" class="hidden">
+      <div class="hero"><div class="hero-logo"><svg width="40" height="40" viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="10" width="2.8" height="9" rx="1.4" fill="#a855f7"/><rect x="6.4" y="5" width="2.8" height="14" rx="1.4" fill="#ec4899"/><rect x="10.8" y="8" width="2.8" height="11" rx="1.4" fill="#3b82f6"/><rect x="15.2" y="3" width="2.8" height="16" rx="1.4" fill="#22d3ee"/><rect x="19.6" y="7" width="2.8" height="12" rx="1.4" fill="#22c55e"/></svg></div><div class="hero-name">AudioPhraser <span>Studio</span></div><p class="hero-tag">WAV Loop Editor &amp; Audio Style Production Studio</p></div>
+      <div class="card">
+        <h1>Log in</h1>
+        <p class="sub">The Editor and Player are available to approved members only. Log in with the email and password the super admin gave you.</p>
+        <form id="loginForm">
+          <label for="liEmail">Email</label>
+          <input id="liEmail" type="email" required autocomplete="username" placeholder="you@example.com">
+          <label for="liPw">Password</label>
+          <input id="liPw" type="password" required autocomplete="current-password" placeholder="Your password">
+          <button class="big" type="submit">Log in</button>
+          <div class="err" id="loginErr"></div>
+        </form>
+      </div>
+      <div class="card">
+        <h2>New here? Request access</h2>
+        <p class="sub">Send a request to the super admin. If approved, you will receive your login password on WhatsApp and by email.</p>
+        <form id="reqForm">
+          <label for="rqName">Your name</label>
+          <input id="rqName" type="text" required placeholder="Full name">
+          <label for="rqEmail">Your email</label>
+          <input id="rqEmail" type="email" required placeholder="you@example.com">
+          <label for="rqWa">WhatsApp number</label>
+          <div class="warow"><input id="rqCc" class="cc" type="tel" autocomplete="tel-country-code" value="+91" aria-label="Country code"><input id="rqWa" class="num" type="tel" autocomplete="tel-national" placeholder="98XXX XXXXX"></div>
+          <label for="rqNote">Note for the admin (optional)</label>
+          <textarea id="rqNote" rows="2" placeholder="e.g. Keyboard player at …"></textarea>
+          <button class="big green" type="submit">Send access request</button>
+          <div class="err" id="reqErr"></div>
+          <div class="ok" id="reqOk"></div>
+        </form>
+      </div>
+    </div>
+
+    <!-- SIGNED IN -->
+    <div class="card hidden" id="inView">
+      <h1 id="inTitle">Welcome</h1>
+      <p class="sub" id="inText"></p>
+      <div id="inStatus"></div>
+      <div class="rowbtns" id="inBtns"></div>
+      <div class="ok" id="inOk"></div>
+      <form id="reqForm2" class="hidden">
+        <div class="divider">REQUEST ACCESS</div>
+        <label for="rqName2">Your name</label>
+        <input id="rqName2" type="text" required placeholder="Full name">
+        <label for="rqWa2">WhatsApp number</label>
+        <div class="warow"><input id="rqCc2" class="cc" type="tel" autocomplete="tel-country-code" value="+91" aria-label="Country code"><input id="rqWa2" class="num" type="tel" autocomplete="tel-national" placeholder="98XXX XXXXX"></div>
+        <label for="rqNote2">Note for the admin (optional)</label>
+        <textarea id="rqNote2" rows="2"></textarea>
+        <button class="big green" type="submit">Send access request</button>
+        <div class="err" id="reqErr2"></div>
+      </form>
+    </div>
+  </div>
+
+<script src="firebase-config.js"></script>
+<script src="auth-gate.js"></script>
+<script>
+const $=id=>document.getElementById(id);
+const next=()=>{ const n=new URLSearchParams(location.search).get("next"); return (n==="editor.html"||n==="player.html"||n==="admin.html")? n : null; };
+function showErr(id,msg){ const e=$(id); e.textContent=msg; e.style.display="block"; }
+function friendly(e){
+  const c=(e&&e.code)||"";
+  if(c.includes("wrong-password")||c.includes("invalid-credential")) return "Wrong password for this email. Please check and try again.";
+  if(c.includes("user-not-found")) return "No login exists for this email yet. If the admin approved you, ask them to create your login; otherwise send an access request below.";
+  if(c.includes("too-many-requests")) return "Too many attempts. Please wait a few minutes and try again.";
+  if(c.includes("network")) return "Network problem — check your internet connection and try again.";
+  return (e&&e.message)||String(e);
+}
+async function render(){
+  const st=await MuseAuth.state();
+  MuseAuth.renderAcct(st.user, st.admin);
+  if(!st.setup){ $("outView").classList.remove("hidden"); $("inView").classList.add("hidden"); return; }
+  if(st.error){ showErr("loginErr","Could not reach the login service: "+st.error.message); $("outView").classList.remove("hidden"); return; }
+  if(!st.user){ $("outView").classList.remove("hidden"); $("inView").classList.add("hidden"); return; }
+  $("outView").classList.add("hidden"); $("inView").classList.remove("hidden");
+  const email=st.user.email;
+  $("inTitle").textContent = st.admin? "Super admin" : "Welcome";
+  $("inText").innerHTML = "Signed in as <b>"+email+"</b>.";
+  const S=$("inStatus"), B=$("inBtns"); B.innerHTML="";
+  const addBtn=(label,href,fill)=>{ const a=document.createElement("a"); a.className="gbtn"+(fill?" fill":""); a.href=href; a.textContent=label; B.appendChild(a); };
+  if(st.admin){
+    S.innerHTML=`<span class="pill">SUPER ADMIN — FULL ACCESS</span>`;
+    addBtn("Open admin panel","admin.html",true); addBtn("Open Editor","editor.html"); addBtn("Open Player","player.html"); addBtn("Home","index.html");
+    return;
+  }
+  if(st.access && st.access.status==="approved"){
+    S.innerHTML=`<span class="pill">ACCESS APPROVED</span>`;
+    const n=next(); if(n){ location.href=n; return; }
+    addBtn("Open Editor","editor.html",true); addBtn("Open Player","player.html"); addBtn("Home","index.html");
+    return;
+  }
+  if(st.access && st.access.status==="revoked"){
+    S.innerHTML=`<span class="pill no">ACCESS REVOKED</span><p class="sub" style="margin-top:10px">Your access was removed by the super admin. Please contact them on WhatsApp if this is a mistake.</p>`;
+    addBtn("Home","index.html",true); return;
+  }
+  const req=await MuseAuth.requestOf(email).catch(()=>null);
+  if(req && req.status==="pending"){
+    S.innerHTML=`<span class="pill wait">REQUEST PENDING</span><p class="sub" style="margin-top:10px">Your access request was sent on ${new Date(req.ts).toLocaleString()}. The super admin will review it — your password will arrive on WhatsApp and by email once approved.</p>`;
+    addBtn("Home","index.html",true); return;
+  }
+  S.innerHTML=`<span class="pill wait">NO ACCESS YET</span><p class="sub" style="margin-top:10px">You are signed in, but the super admin has not granted you access yet. Send a request:</p>`;
+  $("reqForm2").classList.remove("hidden");
+  $("reqForm2").onsubmit=async e=>{
+    e.preventDefault();
+    try{ await MuseAuth.submitRequest($("rqName2").value, email, $("rqNote2").value, waFull("rqCc2","rqWa2")); $("inOk").textContent="✓ Request sent. The super admin will review it."; $("inOk").style.display="block"; $("reqForm2").classList.add("hidden"); S.innerHTML=`<span class="pill wait">REQUEST PENDING</span>`; }
+    catch(err){ showErr("reqErr2", friendly(err)); }
+  };
+}
+function waFull(ccId, numId){
+  const cc=($(ccId).value||"").replace(/\D/g,"");
+  const raw=($(numId).value||"").trim();
+  const nd=raw.replace(/\D/g,"");
+  if(!nd) return "";
+  if(!cc) return raw;
+  if(nd.length>10 && nd.indexOf(cc)===0) return "+"+nd;
+  return "+"+cc+nd;
+}
+$("loginForm").onsubmit=async e=>{
+  e.preventDefault(); $("loginErr").style.display="none";
+  try{ await MuseAuth.signIn($("liEmail").value, $("liPw").value); render(); }
+  catch(err){ if(err.message==="setup"){ showErr("loginErr", "Sign-in is unavailable right now. Please try again later."); } else showErr("loginErr", friendly(err)); }
+};
+$("reqForm").onsubmit=async e=>{
+  e.preventDefault(); $("reqErr").style.display="none"; $("reqOk").style.display="none";
+  try{ await MuseAuth.submitRequest($("rqName").value, $("rqEmail").value, $("rqNote").value, waFull("rqCc","rqWa"));
+    $("reqOk").textContent="✓ Request sent to the super admin. If approved, your login password will be sent to you on WhatsApp and by email."; $("reqOk").style.display="block"; e.target.reset();
+  }catch(err){ if(err.message==="setup"){ showErr("reqErr", "Requests are unavailable right now. Please try again later."); } else showErr("reqErr", friendly(err)); }
+};
+render();
+</script>
+<script>if("serviceWorker" in navigator){window.addEventListener("load",()=>{navigator.serviceWorker.register("sw.js").catch(()=>{});});}</script>
+<script>
+/* ---------------- collapse menu in the header ---------------- */
+(function(){
+const menuBtn=document.getElementById("menuBtn"), menuEl=document.getElementById("menu");
+if(!menuBtn||!menuEl) return;
+function closeMenu(){ menuEl.classList.add("hidden"); menuBtn.setAttribute("aria-expanded","false"); }
+menuBtn.addEventListener("click", function(e){ e.stopPropagation(); const willOpen=menuEl.classList.contains("hidden"); menuEl.classList.toggle("hidden", !willOpen); menuBtn.setAttribute("aria-expanded", String(willOpen)); });
+document.addEventListener("click", function(e){ if(!menuEl.classList.contains("hidden") && !menuEl.contains(e.target) && !menuBtn.contains(e.target)) closeMenu(); });
+menuEl.querySelectorAll(".mitem").forEach(function(el){ el.addEventListener("click", closeMenu); });
+document.addEventListener("keydown", function(e){ if(e.key==="Escape") closeMenu(); });
+})();
+</script>
+
+</body>
+</html>
