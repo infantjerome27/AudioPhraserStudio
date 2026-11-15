@@ -1,4 +1,8 @@
 /* =====================================================================
+   NOTE: Fill in YOUR OWN Firebase project values below. The real API key
+   is NOT committed to this public repo — copy this file, add your keys,
+   and keep the real one out of version control.
+   =====================================================================
    AudioPhraser Studio — access control configuration
    Super admin: infantjerome12@gmail.com
    Firebase project: audiophraser-studio (config connected 2026-10-21).
@@ -7,7 +11,7 @@
 window.SUPER_ADMIN_EMAIL = "infantjerome12@gmail.com";
 
 window.FIREBASE_CONFIG = {
-  apiKey: "AIzaSyCSm68rI3JvYV6O2lUuuyf95f6sXeWAccY",
+  apiKey: "YOUR_FIREBASE_WEB_API_KEY",,
   authDomain: "audiophraser-studio.firebaseapp.com",
   projectId: "audiophraser-studio",
   storageBucket: "audiophraser-studio.firebasestorage.app",
